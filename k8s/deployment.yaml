@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clickclouddb-deployment
+  labels:
+    app: clickclouddb
+spec:
+  replicas: 1 # You can adjust the number of replicas
+  selector:
+    matchLabels:
+      app: clickclouddb
+  template:
+    metadata:
+      labels:
+        app: clickclouddb
+    spec:
+      serviceAccountName: my-service-account
+      containers:
+      - name: clickclouddb
+        image: gokalpmeric/clickclouddb:0.0.4 # Replace with your Docker image name
+        ports:
+        - containerPort: 5000
+        envFrom:
+          - configMapRef:
+              name: mongo-config
+          - secretRef:
+              name: mongo-secret
