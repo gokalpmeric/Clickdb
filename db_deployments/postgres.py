@@ -23,7 +23,8 @@ def create_postgres_deployment(db_name, username, email):
             client.V1EnvVar(name="POSTGRES_DB", value=db_name),
             client.V1EnvVar(name="POSTGRES_USER", value=username),
             client.V1EnvVar(name="POSTGRES_PASSWORD", value=password)
-        ]
+        ],
+        security_context=client.V1SecurityContext(run_as_user=26)  # Add this line
     )
 
     template = client.V1PodTemplateSpec(
